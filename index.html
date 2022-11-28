@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <title>ToDo приложение</title>
+</head>
+<body data-theme='light'>
+
+<div class="container">
+    <header>
+        <button id="btnTheme" type="button" data-action="theme" class="btn-action">
+            <img src="./img/theme_light_dark.svg" alt="Theme" width="30" height="30">
+        </button>
+
+        <div class="filters">
+            <span class="active" id="all">Все</span>
+            <span id="pending" class="">В процессе
+            </span>
+            <span id="completed" class="">Завершенные</span>
+        </div>
+
+        <form id="form-search">
+            <div class="form-group-search">
+                <input type="text" class="search-control" id="searchInput" placeholder="Поиск по задачам" required>
+            </div>
+        </form>
+    </header>
+
+    <main>
+    <div class="card mb-4">
+        <ul id="tasksList" class="list-group list-group-flush">
+        </ul>
+    </div>
+
+    <div class="card bg-light">
+
+        <div class="card-header">Опишите новую задачу</div>
+
+        <div class="card-body">
+
+            <form id="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="taskInput" placeholder="Текст задачи" required>
+                </div>
+                <button type="submit" class="btn btn-primary  btn-lg active">Добавить</button>
+            </form>
+
+        </div>
+    </div>
+    </main>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
