@@ -3,7 +3,7 @@ const form = document.querySelector('#form');
 const taskInput = document.querySelector('#taskInput');
 const tasksList = document.querySelector('#tasksList');
 const themeController = document.querySelector('#btnTheme');
-const search = document.querySelector("#searchInput")
+// const search = document.querySelector("#searchInput")
 
 let tasks = [];
 
@@ -24,23 +24,35 @@ checkEmptyList();
 // Добавление задачи
 form.addEventListener('submit', addTask);
 
-// Удаление задачи
-tasksList.addEventListener('click', deleteTask);
-
-// Отмечаем задачу завершенной
-tasksList.addEventListener('click', doneTask);
-
 //Редактирование задачи
-tasksList.addEventListener('click',editTask );
+tasksList.addEventListener('click', (event) => {
+    event.preventDefault()
+
+    const action = event.target.dataset.action
+
+    if (action === 'edit') {
+        editTask(event)
+    }
+    if (action === 'done') {
+        doneTask(event)
+    }
+    if (action === 'delete') {
+        deleteTask(event)
+    }
+})
 
 
 //Функции
+function findTodoById(todoId) {
+    return tasks.find((elem) => elem.id === todoId)
+}
+
 function changeTheme() {
     const themeName = document.body.getAttribute("data-theme");
-    if(themeName === "light"){
+    if (themeName === "light") {
         document.body.setAttribute("data-theme", "dark")
         localStorage.setItem('theme', "dark");
-    }else{
+    } else {
         document.body.setAttribute("data-theme", "light")
         localStorage.setItem('theme', "light");
     }
@@ -48,12 +60,13 @@ function changeTheme() {
 
 }
 
-function renderTask(task) {
-    // Формируей Css класс
-    const cssClass = task.done ? "task-title task-title--done" : "task-title";
+function renderTask() {
 
-    // Формируем разметку для новой задачи
-    const taskHTML = `
+    tasksList.innerHTML = null
+
+    tasks.forEach(task => {
+        const cssClass = task.done ? "task-title task-title--done" : "task-title";
+        tasksList.innerHTML += `
             <li id="${task.id}" class="list-group-item d-flex justify-content-between task-item">
             <button type="button" data-action="edit" class="btn-action">
 						<img src="./img/pencil.svg" alt="Edit" width="18" height="18">
@@ -68,9 +81,8 @@ function renderTask(task) {
 					</button>
 				</div>
 			</li>`;
+    })
 
-    // Добавляем задачу на страницу
-    tasksList.insertAdjacentHTML('beforeend', taskHTML);
 }
 
 function addTask(event) {
@@ -95,7 +107,7 @@ function addTask(event) {
     saveToLocalStorage();
 
     //Рендерим задачу на странице
-    renderTask(newTask);
+    renderTask();
 
     // Очищаем поле ввода и вовзращаем на него фокус
     taskInput.value = "";
@@ -127,8 +139,6 @@ function deleteTask(event) {
 }
 
 function doneTask(event) {
-    //Проверяем, что клик был НЕ по кнопке "задача выполнена"
-    if (event.target.dataset.action !== "done") return;
 
     //Проверяем, что клик был по кнопке "задача выполнена"
     const parentNode = event.target.closest('.list-group-item');
@@ -146,17 +156,31 @@ function doneTask(event) {
 }
 
 function editTask(event) {
-    //Проверяем, что клик был НЕ по кнопке "задача выполнена"
-    if (event.target.dataset.action !== 'edit') return;
 
-    //Проверяем, что клик был по кнопке "задача выполнена"
     const parentNode = event.target.closest('.list-group-item');
 
-    // Определяем ID задачи
     const id = Number(parentNode.id);
-    const task = tasks.find((task) => task.id === id);
+    const task = findTodoById(id);
 
     taskInput.value = task.text;
+    taskInput.focus();
+
+    const edit = document.getElementById('edit');
+    const create = document.getElementById('create')
+
+    create.hidden = true;
+    edit.hidden = false
+
+
+    edit.onclick = (e) => {
+        e.preventDefault()
+        task.text = taskInput.value
+
+        renderTask()
+        create.hidden = false;
+        edit.hidden = true
+        taskInput.value = ''
+    }
 }
 
 function checkEmptyList() {
@@ -178,22 +202,10 @@ function saveToLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-////////////////////////////////////////////////
-search.oninput = function (){
-    let val = this.value.trim();
-    let elasticItems = document.querySelectorAll('#tasksList li')
-    console.log(val)
-    console.log(elasticItems)
-    if(val != ''){
-        elasticItems.forEach(function (elem){
-            if(elem.innerText.search(val) == -1){
-                elem.classList.add('hide')
-            } else {
-                elem.classList.remove('hide')
-            }
-        })
-    }
-}
-////////////////////////////////////////////////
+
+
+
+
+
 
 

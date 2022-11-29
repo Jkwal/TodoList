@@ -25,32 +25,31 @@
 
         <form id="form-search">
             <div class="form-group-search">
-                <input type="text" class="search-control" id="searchInput" placeholder="Поиск по задачам" required>
+                <label><input type="text" class="search-control" id="searchInput" placeholder="Поиск по задачам"
+                              required></label>
             </div>
         </form>
     </header>
 
     <main>
-    <div class="card mb-4">
-        <ul id="tasksList" class="list-group list-group-flush">
-        </ul>
-    </div>
-
-    <div class="card bg-light">
-
-        <div class="card-header">Опишите новую задачу</div>
-
-        <div class="card-body">
-
-            <form id="form">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="taskInput" placeholder="Текст задачи" required>
-                </div>
-                <button type="submit" class="btn btn-primary  btn-lg active">Добавить</button>
-            </form>
-
+        <div class="card mb-4">
+            <ul id="tasksList" class="list-group list-group-flush">
+            </ul>
         </div>
-    </div>
+
+        <div class="card bg-light">
+            <div class="card-header">Опишите новую задачу</div>
+            <div class="card-body">
+                <form id="form">
+                    <div class="form-group">
+                        <label><input type="text" class="form-control" id="taskInput" placeholder="Текст задачи"
+                                      required></label>
+                    </div>
+                    <button type="submit" id="create" class="btn btn-primary  btn-lg active">Добавить</button>
+                    <button type="button" id="edit" class="btn btn-lg ml-5 active" hidden>Редактировать задачу</button>
+                </form>
+            </div>
+        </div>
     </main>
 </div>
 
